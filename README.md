@@ -13,6 +13,8 @@ Our goal is an on-chain contract that implements an interface that everyone will
 ## How this will be used
 This new API or function will be used to get block-by-block market depths for all pairs within each pool, helping reduce diffrences of how this is calculated and reduce the number of necessary RPC calls used in roundabout methods. 
 
+This repo is designed to give you a way to PR a version of the `haiko.py` file for your DEX and write a test that gives a similar result.
+
 ## Example: Haiko
 
 Haiko has written a contract function `depth` (currently on testnet) available here: [https://testnet.starkscan.co/contract/0xbaa40f0fc9b0e069639a88c8f642d6f2e85e18332060592acf600e46564204#read-write-contract](https://testnet.starkscan.co/contract/0xbaa40f0fc9b0e069639a88c8f642d6f2e85e18332060592acf600e46564204#read-write-contract)
