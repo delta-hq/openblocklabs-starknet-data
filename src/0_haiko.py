@@ -70,10 +70,6 @@ async def main():
 
     depth = [nested_odict_to_dict(item) for item in results[0][0]]
 
-    depth = await contract.functions["depth"].call(ETH_USDT)
-
-    depth = [nested_odict_to_dict(item) for item in depth[0]]
-
     with open("test/haiko.json", 'w') as file:
         json.dump(depth, file)
 
