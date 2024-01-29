@@ -7,6 +7,13 @@ Much of this data is already available from different sources (on-chain, APIs), 
 1. `pip install -r requirements.txt`
 2. `python run.py`
 
+## What to Do
+1. Create or edit the file associated with your DEX in the `src` folder. Ex: `00_haiko.py`
+2. The output of that file should be a json (saved in the `test` folder) with the data necessary to calculate market depth or the market depth itself.
+3. Add a `test_{your_dex}.py` file in the `test` folder. This is the file Your result will be tested against.
+4. When ready, run `python run.py` which will run all the files in `src` including the tests file.
+
+
 ## The Request
 We are requesting that participating DEXs provide a consistent solution for getting market depth data for pools. 
 
