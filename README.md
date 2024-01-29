@@ -11,7 +11,8 @@ Much of this data is already available from different sources (on-chain, APIs), 
 1. Create or edit the file associated with your DEX in the `src` folder. Ex: `00_haiko.py`
 2. The output of that file should be a json (saved in the `test` folder) with the data necessary to calculate market depth or the market depth itself.
 3. Add a `test_{your_dex}.py` file in the `test` folder. This is the file Your result will be tested against.
-4. When ready, run `python run.py` which will run all the files in `src` including the tests file.
+4. Add your test to the `99_tests.py` file in the `src` folder.
+5. When ready, run `python run.py` which will run all the files in `src` including the tests file.
 
 
 ## The Request
