@@ -4,7 +4,7 @@ As part of our partnership with the Starknet Foundation Grants Program, OpenBloc
 Much of this data is already available from different sources (on-chain, APIs), but an important data point often missing (without using roundabout methods) is the market depth for DEX analysis.
 
 ## How to run
-1. `pip install -r requirements.txt`
+1. Run `./setup.sh` which will setup your virtual envvironment and install dependencies.
 2. `python run.py`
 
 ## What to Do
