@@ -1,4 +1,4 @@
-# Openblock Labs Market Depth Request
+# Openblock Labs LP Data Request
 As part of our partnership with the Starknet Foundation Grants Program, OpenBlock Labs requires participating protocols to index and graph their data.  
 
 Much of this data is already available from different sources (on-chain, APIs), but an important data point often missing (without using roundabout methods) is the market depth for DEX analysis.
@@ -9,21 +9,21 @@ Much of this data is already available from different sources (on-chain, APIs), 
 
 ## What to Do
 1. Create or edit the file associated with your DEX in the `src` folder. Ex: `00_haiko.py`
-2. The output of that file should be a json (saved in the `test` folder) with the data necessary to calculate market depth or the market depth itself.
+2. The output of that file should be a json (saved in the `test` folder) with the user-level position data.
 3. Add a `test_{your_dex}.py` file in the `test` folder. This is the file Your result will be tested against.
 4. Add your test to the `99_tests.py` file in the `src` folder.
 5. When ready, run `python run.py` which will run all the files in `src` including the tests file.
 
 
 ## The Request
-We are requesting that participating DEXs provide a consistent solution for getting market depth data for pools. 
+We are requesting that participating DEXs provide a consistent solution for getting market depth data down to the pool and user level. With user-level liquidity data, Openblock Labs will be able to calculate each user's airdrop amount for each grant period, with no additional input needed from the protocol teams. This will ultimately reduce the total effort and coordination required to administer the grant program.
 
-Ideally, this would be an on-chain contract function (preferred) like the [Haiko example](#example-haiko) below or API that takes the inputs of `token0`, `token1`, `block number` or the `latest` block, and the `depth_percent` (i.e. .5%, 2%, 10%, etc) and would return the market depth for the desired pool. Instead of `token0` and `token1`, a `market_id` would work as well.
+Ideally, this would be an on-chain contract function (preferred). The [Haiko example](#example-haiko) below shows pool-level data sufficient to determine the grant to each pool. We would like the data in this format, but broken out by user address so that it can be used to determine the user-level grant amount.
 
 Our goal is an on-chain contract that implements an interface that everyone will create and open source.
 
 ## How this will be used
-This new API or function will be used to get block-by-block market depths for all pairs within each pool, helping reduce diffrences of how this is calculated and reduce the number of necessary RPC calls used in roundabout methods. 
+This new API or function will be used to take periodic snapshots of all user positions within each pool, in addition to the current price. This will be used to calculate the average liquidity contributed by each user, weighted by its distance from the current market price. This metric will be used to determine the user's share of incentives.
 
 This repo is designed to give you a way to PR a version of the `haiko.py` file for your DEX and write a test that gives a similar result.
 
@@ -31,7 +31,7 @@ This repo is designed to give you a way to PR a version of the `haiko.py` file f
 
 Haiko has written a contract function `depth` (currently on testnet) available here: [https://testnet.starkscan.co/contract/0xbaa40f0fc9b0e069639a88c8f642d6f2e85e18332060592acf600e46564204#read-write-contract](https://testnet.starkscan.co/contract/0xbaa40f0fc9b0e069639a88c8f642d6f2e85e18332060592acf600e46564204#read-write-contract)
 
-Which returns a response we can use to get market depths for pairs (current price is also needed and should be included in the response if possible).
+Which returns a response we can use to get market depths for pairs. This is a first draft, but two additional pieces of information will ultimately be needed: the current price (ideally included in the response rather than in a separate call) and the corresponding addresses of each user providing liquidity.
 
 `limits` are similar to Uniswap V3 `ticks`. Documentation explaining limits on Haiko: [https://haiko-docs.gitbook.io/docs/developers/advanced-concepts/limits](https://haiko-docs.gitbook.io/docs/developers/advanced-concepts/limits)
 
@@ -94,6 +94,8 @@ Which returns a response we can use to get market depths for pairs (current pric
         }
     ]
 ```
+
+Ultimately, we want this data separated out by user, adding an additional `lp_address` parameter with each `liquidity_delta`.
 
 ## Testing Code
 
