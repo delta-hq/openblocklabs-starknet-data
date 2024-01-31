@@ -14,13 +14,22 @@ Much of this data is already available from different sources (on-chain, APIs), 
 4. Add your test to the `99_tests.py` file in the `src` folder.
 5. When ready, run `python run.py` which will run all the files in `src` including the tests file.
 
-
 ## The Request
 We are requesting that participating DEXs provide a consistent solution for getting market depth data down to the pool and user level. With user-level liquidity data, Openblock Labs will be able to calculate each user's airdrop amount for each grant period, with no additional input needed from the protocol teams. This will ultimately reduce the total effort and coordination required to administer the grant program.
 
+We also need a snapshot of LP token holders for Uni v2 protocols.
+
 Ideally, this would be an on-chain contract function (preferred). The [Haiko example](#example-haiko) below shows pool-level data sufficient to determine the grant to each pool. We would like the data in this format, but broken out by user address so that it can be used to determine the user-level grant amount.
 
+If not possible, please provide an api endpoint.
+   
 Our goal is an on-chain contract that implements an interface that everyone will create and open source.
+
+### Data Requirements v3
+1. Market Depth at pool and user level.
+
+### Data Requirements v2
+1. Snapshot of all LP token holders.
 
 ## How this will be used
 This new API or function will be used to take periodic snapshots of all user positions within each pool, in addition to the current price. This will be used to calculate the average liquidity contributed by each user, weighted by its distance from the current market price. This metric will be used to determine the user's share of incentives.
