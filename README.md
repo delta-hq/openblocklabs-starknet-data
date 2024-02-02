@@ -25,11 +25,46 @@ If not possible, please provide an api endpoint.
    
 Our goal is an on-chain contract that implements an interface that everyone will create and open source.
 
-### Data Requirements v3
-1. Market Depth at pool and user level.
+## Data Ingestion Process 
+Over the course of the grant period, we will be collecting the necessary data at a random time each hour. (Random to prevent anyone from strategically timing and manipulating the results). This data will be used to determine the pool and user-level incentives for the period.
 
-### Data Requirements v2
-1. Snapshot of all LP token holders.
+In order to streamline this process, we have created a GitHub repo that we would like all protocol teams to add a working solution. The GitHub repo is available here. This will allow all teams to see how we will be getting the required data.
+
+### Required Data
+
+#### All Protocols
+This data should be available for all protocols. It can be provided by API or an indexer. Whichever option you choose, let us know in Telegram and please provide examples in the starknet-data repo: GitHub
+- Volume (total amount of trading activity within a specific time frame)
+- TVL (total value of assets deposited)
+- Fees
+
+#### Lending Protocols
+For lending protocols we need a list of all users, the amount of each token they supply, and the amount of each token they borrow. It should be possible to get this from event logs. Let us know in Telegram if this will not work. Please provide examples in this repo.
+Users
+- Amount of tokens supplied
+- Amount of tokens borrowed
+
+#### Uni v2
+Market depth for protocols based on Uni v2 is not available, so we are requiring each users LP token balance for the calculations needed for the incentive allocation.
+
+- Snapshot of LP token holders
+  - Capture the addresses and balances held by users who have provided liquidity to a pool at a random time per hour. OBL will be collecting this data, but please provide an example call in this repo
+  - We need the user and LP balance for each pair
+
+#### Uni v3+ 
+Market depth is a primary metric we will be using for the incentive allocation. To calculate the market depth provided by each individual user, we must know all of every user’s liquidity positions. This metric is not easily available for most protocols, so we are asking each team to create a new method for us to retrieve the data. There are 3 ways we are aware of to retrieve the necessary data.
+- Market Depth
+  - Possible ways of getting this data:
+      - Contract Code: Either a callable function `market_depth` or capturing the mint, deposit, withdrawal, transfer events
+      - API endpoint provided by the protocol
+      - Events that change a user's liquidity position (minting, depositing, withdrawing, transferring)
+
+##### Market Depth
+We are requesting that participating Uni v3+ DEXs provide a consistent solution for getting market depth data down to the pool and user level. With user-level liquidity data, Openblock Labs will be able to calculate each user's airdrop amount for each grant period, with no additional input needed from the protocol teams. This will ultimately reduce the total effort and coordination required to administer the grant program.
+
+Ideally, the solution for market depth would be an on-chain contract function. Our goal is an on-chain contract that implements an interface that everyone will create and open source. This could be a function “market_depth” that returns the pool and user-level data like the example provided by Haiko. Alternatively, compile all events that change a user's liquidity position (minting, depositing, withdrawing, transferring) and provide OpenBlock Labs with a script to construct the current state of liquidity in the pool from all past events.
+
+If not possible to do on-chain, please provide an api endpoint.
 
 ## How this will be used
 This new API or function will be used to take periodic snapshots of all user positions within each pool, in addition to the current price. This will be used to calculate the average liquidity contributed by each user, weighted by its distance from the current market price. This metric will be used to determine the user's share of incentives.
