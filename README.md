@@ -40,7 +40,7 @@ This data should be available for all protocols. It can be provided by API or an
 
 #### Lending Protocols
 For lending protocols we need a list of all users, the amount of each token they supply, and the amount of each token they borrow. It should be possible to get this from event logs. Let us know in Telegram if this will not work. Please provide examples in this repo.
-Users
+- Users
 - Amount of tokens supplied
 - Amount of tokens borrowed
 
