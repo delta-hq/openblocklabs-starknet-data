@@ -120,7 +120,7 @@ async def main():
 
     # Set the batch size and total number of users
     batch_size = 1000
-    total_users = 700000
+    total_users = 2500000
 
     all_balances = {}
     pairs = [ETH_USDC, USDC_USDT]
